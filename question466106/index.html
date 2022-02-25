@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- Para la implementacion con jQuery agregamos el siguiente script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script>
+        /**
+         * Con javascript modificando el style del elemento
+         **/
+        window.onload = () => {
+            document.getElementById('searchJS').addEventListener('input', (e) => {
+                if (e.target.value !== undefined && e.target.value !== null && e.target.value.trim().length > 0) {
+                        document.getElementById('ItemListJS').style = 'display: none;';
+                } else {
+                    document.getElementById('ItemListJS').style = 'display: flex;';
+                }
+            });
+        };
+    </script>
+
+    <script>
+        /**
+         * Con jQuery - Version usada: 3.3.1
+         **/
+        $(document).ready(() => {
+            $('#searchJQ').on('input', (e) => {
+                if (e.target.value !== undefined && e.target.value !== null && e.target.value.trim().length > 0) {
+                        $('#ItemListJQ').css({'display': 'none'});
+                } else {
+                    $('#ItemListJQ').css({'display': 'flex'});
+                }
+            })
+        });
+
+    </script>
+</head>
+<body>
+    <label for="searchJS">Prueba con Javascript:</label>
+    <input id="searchJS" name="searchJS" type="text">
+    <br>
+    <br>
+    <span id="ItemListJS">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cum perspiciatis praesentium repellendus tempore quis eum porro laborum itaque! Consectetur sit sequi sed rerum sapiente ratione nobis voluptate, excepturi debitis harum.</span>
+    <hr>
+    <br>
+    <label for="searchJQ">Prueba con jQuery:</label>
+    <input id="searchJQ" name="searchJQ" type="text">
+    <br>
+    <br>
+    <span id="ItemListJQ">lors Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cum perspiciatis praesentium repellendus tempore quis eum porro laborum itaque! Consectetur sit sequi sed rerum sapiente ratione nobis voluptate, excepturi debitis harum.</span>
+</body>
+</html>

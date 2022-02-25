@@ -1,0 +1,6 @@
+<p>manuales works!</p>
+<p *ngIf="videos !== undefined">Videos: {{videos}}</p>
+<!-- Aqui agregamos el selector de nuestro segundo componente creado -->
+<!-- Agregamos el nuevo atributo que creamos en el componente que llama resultado, como va a mandar informacion debe colocarse en parentesis -->
+<!-- como expresion colocamos la funcion obtenerResultado que creamos en el componente manuales y le agregamos el parametro como $event, para transmitir la informacion que mandan desde el componente hijo -->
+<dialog-content-example-dialog (resultado)="obtenerResultado($event);"></dialog-content-example-dialog>

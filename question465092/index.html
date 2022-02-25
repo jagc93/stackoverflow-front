@@ -1,0 +1,52 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+      $(document).ready(function () {
+        $("#sel-principal").change(function () {
+          var val = $(this).val();
+
+          if (val === "1") {
+            var selSecundario = $("#sel-secundario");
+            selSecundario.val("4");
+            selSecundario.trigger("change");
+          }
+        });
+        $("#sel-secundario").change(function () {
+          var val = $(this).val();
+          console.log(val);
+          var selTerciario = $("#sel-terciario");
+          if (val === "4") {
+            selTerciario.append([
+              $("<option>", { value: "7", text: "Siete" }),
+              $("<option>", { value: "8", text: "Ocho" }),
+              $("<option>", { value: "9", text: "Nueve" }),
+            ]);
+          }
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <select name="sel-principal" id="sel-principal">
+      <option value="" selected disabled>Seleccione principal</option>
+      <option value="1">Uno</option>
+      <option value="2">Dos</option>
+      <option value="3">Tres</option>
+    </select>
+    <select name="sel-secundario" id="sel-secundario">
+      <option value="" selected disabled>Seleccione Secundario</option>
+      <option value="4">Cuatro</option>
+      <option value="5">Cinco</option>
+      <option value="6">Seis</option>
+    </select>
+    <select name="sel-terciario" id="sel-terciario">
+      <option value="" selected disabled>Seleccione Terciario</option>
+    </select>
+  </body>
+</html>

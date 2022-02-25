@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /*
+       * Primero, no hay necesidad de pasarle el code, puesto que lo pasaremos
+       * como parámetro a la función que obtenemos de aquí
+       */
+      function list(arr) {
+        let newArr = [];
+        // En vez de un loop, utilizo un forEach y me olvido de la i
+        arr.forEach((val) => {
+          /*
+           * Uso arrow functions por comodidad, pero es casi lo mismo
+           * que utilizar funciones anónimas. En este caso simplemente me
+           * permiten hacer lo mismo escribiendo menos código
+           */
+          newArr.push((cod) => {
+            if (cod !== 123) return "error";
+            else return val;
+          });
+        });
+        return newArr;
+      }
+
+      const array = ["str1", "str2", "str3"];
+      const code = 123;
+
+      const l = list(array);
+      console.log(l[1](123));
+      console.log(l[2](1235315));
+    </script>
+  </body>
+</html>

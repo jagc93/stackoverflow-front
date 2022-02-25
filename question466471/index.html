@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+
+        let combinaciones = [];
+
+        const sumaNumeroEspecifico = (arr, num) => {
+
+            /**
+             * Sumamos todos los item del arreglo suministrados,
+             * en caso tal de no cumplir la primer parte del if, se proceda a validar con el total
+             */
+            const sumaTotal = arr.reduce((a, c) => a + c);
+
+            /**
+             * Primero verificamos con la funcion include si el numero recibido existe en alguno de
+             * los items del arreglo, de no ser así procedemos a validar la suma de todos los items
+             * del arreglo. No es necesario hacerlo, pero considero que es mas optimo hacer la suma
+             * y verificar si el total de los items del arreglo es igual al número a validar.
+             * 
+             * En caso tal de no cumplir el if, procedemos a validar que la suma total de los items
+             * sea mayor al numero a verificar, para evitar consumos excesivos de memoria.
+             * Si es menor dicha suma, se sabe que no se cumple con la condicion requerida y retornamos false
+             * 
+             * Si ninguna de las 2 opciones se cumple, procedemos a realizar las combinaciones y verificaciones
+             */
+            if (arr.includes(num) || sumaTotal === num) {
+                return true;
+            } else if (sumaTotal < num) {
+                return false;
+            } else {
+
+                /**
+                 * En este punto hacemos la ejecucion inicial del metodo encargado de generar
+                 * todas las combinaciones posibles.
+                 */
+                combinacionesSuma(arr, num, [], 0);
+console.log(combinaciones);
+                let result = false;
+
+                // Recorremos la matriz con cada combinacion generada
+                for(let i = 0; i < combinaciones.length; i++) {
+
+                    /**
+                     * Desligamos el arreglo suministrado del temporal
+                     * Esto es para evitar modificar el arreglo principal en cada modificacion del
+                     * arreglo temporal
+                     */
+                    const arrTemp = JSON.parse(JSON.stringify(arr));
+                    const combo = combinaciones[i];
+
+                    /**
+                     * Procedemos a recorrer el arreglo con los items correspondientes
+                     * que al sumarlos todos el resultado es el mismo del valor suministrado
+                     */
+                    for(let j = 0; j < combo.length; j++) {
+                        const n = combo[j];
+
+                        // Verificamos si el numero o item del arreglo combo existe en el arreglo temporal
+                        if (arrTemp.includes(n)) {
+                            // Vamos eliminando cada item del arreglo temporal que exista en el arreglo combo
+                            arrTemp.splice(arrTemp.indexOf(n), 1);
+                            // Tambien se elimina el item del arreglo combo
+                            combo.splice(j, 1);
+                            /**
+                             * Se le resta al indice j un digito ya que al remover el item actual,
+                             * el item siguiente pasa a ocupar su lugar.
+                             */
+                            j--;
+                        }
+
+                        /**
+                         * Si el combo queda vacio es porque todos sus digitos existen
+                         * en el arreglo suministrado
+                         * cambiamos a true la variable result y cortamos el ciclo del combo.
+                         * 
+                         * Si no entra en el if, validamos si el arreglo temporal se encuentra vacio
+                         * o validamos si ya el ciclo va a culminar, para inicializar la variable
+                         * result en false y hacemos nuevamente el break para cortar el ciclo.
+                         */
+                        if (combo.length === 0) {
+                            result = true;
+                            break;
+                        } else if (arrTemp.length === 0) {
+                            result = false;
+                            break;
+                        }
+                    }
+
+                    if (result) {
+                        return true;
+                    } else if (i === combinaciones.length - 1) {
+                        return false;
+                    }
+                }
+            }
+        };
+
+        /**
+         * Creamos metodo recursivo, el cual consiste en generar todas las combinaciones posibles,
+         * para que se obtenga el numero a verificar. Estos datos se almacenan en la matriz combinaciones.
+         */
+        function combinacionesSuma(arr, num, combo, sum) {
+            if (sum === num) {
+                /**
+                 * Antes de almacenar el arreglo, se hace una transformación a string y se parsea nuevamente,
+                 * Esto debido a que al hacer posteriores modificaciones y no afectar la ejecución de la recursividad.
+                 */
+                combinaciones.push(JSON.parse(JSON.stringify(combo)));
+            } else {
+                for(let i = 1; i <= num; i++) {
+                    sum += i;
+                    if (sum <= num) {
+
+                        /**
+                         * Agregamos al arreglo combo el valor de i
+                         */
+                        combo.push(i);
+
+                        /**
+                         * En esta parte del codigo aplicamos la recursividad, haciendo llamados sobre
+                         * el mismo metodo, con los ajustes necesarios en la informacion a mandar
+                         */
+                        combinacionesSuma(arr, num, combo, sum);
+
+                        /**
+                         * Posterior a la ejecucion del metodo, removemos del arreglo combo el item con el mismo valor de i
+                         * Esto se realiza para poder tener las combinaciones exactas, en cada arreglo que se va generando
+                         * el cual al sumar todos sus items va a dar como resultado el numero a validar.
+                         */
+                        combo.splice(combo.indexOf(i), 1);
+                    }
+
+                    /**
+                     * En este punto le restamos a la suma que llevamos el valor de i.
+                     */
+                    sum -= i;
+                }
+            }
+        }
+
+        const arreglo = [1, 2, 3];
+        console.log(sumaNumeroEspecifico(arreglo, Number(prompt('Ingrese el número a verificar', 0))));
+    </script>
+  </body>
+</html>
